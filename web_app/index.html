@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steam-like Achievements</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         .achievement { border: 1px solid #ccc; padding: 10px; margin: 10px; }
     </style>
@@ -12,19 +15,20 @@
 
     <script>
         const tg = window.Telegram.WebApp;
+        tg.expand();
         const userId = tg.initDataUnsafe.user.id;
 
-        // Используйте IP-адрес ноутбука для тестирования с телефона
-        fetch(`http://192.168.152.199:5000/achievements?user_id=${userId}`)  // Замените на ваш IP
-            .then(res => {
-                if (!res.ok) throw new Error("Ошибка загрузки данных");
-                return res.json();
-            })
+        fetch(`/achievements?user_id=${userId}`)
+            .then(res => res.json())
             .then(data => {
-                const container = document.getElementById("achievements");
+                const container = document.getElementById('achievements');
+                if (data.error) {
+                    container.textContent = data.error;
+                    return;
+                }
                 data.forEach(ach => {
-                    const div = document.createElement("div");
-                    div.className = "achievement";
+                    const div = document.createElement('div');
+                    div.className = 'achievement';
                     div.textContent = ach;
                     container.appendChild(div);
                 });
