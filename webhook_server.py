@@ -32,3 +32,6 @@ def github_webhook():
         return f'❌ Ошибка: {str(e)}', 500
 
 app.run(host='0.0.0.0', port=8080)
+
+# pfvtsfr er
+
