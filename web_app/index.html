@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Steam-like Achievements</title>
+    <style>
+        .achievement { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Ваши достижения</h1>
+    <div id="achievements"></div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        const userId = tg.initDataUnsafe.user.id;
+
+        // Используйте IP-адрес ноутбука для тестирования с телефона
+        fetch(`http://192.168.152.199:5000/achievements?user_id=${userId}`)  // Замените на ваш IP
+            .then(res => {
+                if (!res.ok) throw new Error("Ошибка загрузки данных");
+                return res.json();
+            })
+            .then(data => {
+                const container = document.getElementById("achievements");
+                data.forEach(ach => {
+                    const div = document.createElement("div");
+                    div.className = "achievement";
+                    div.textContent = ach;
+                    container.appendChild(div);
+                });
+            })
+            .catch(err => console.error(err));
+    </script>
+</body>
+</html>
