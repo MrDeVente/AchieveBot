@@ -26,7 +26,7 @@ def achievements_api():
     user_id = request.args.get('user_id')
     if not user_id:
         return jsonify({'error': 'user_id is required'}), 400
-    items = database.get_achievements(user_id)
+    items = database.get_all_achievements(user_id)
     return jsonify(items)
 
 if __name__ == '__main__':
